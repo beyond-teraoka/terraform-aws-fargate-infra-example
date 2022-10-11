@@ -1,0 +1,16 @@
+#  Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+# editor files
+*.vscode
+
+# direnv file
+*.direnv
+*.envrc
+
+terraform.tfstate
+terraform.tfstate.backup

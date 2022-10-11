@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  nginx-app-01:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+      args:
+        - APP_DIR=01_app
+        - UPSTREAM_NAME=php-app-01
+        - FPM_PORT=9000
+    image: nginx-app-01
+    ports:
+      - "80:80"
+    depends_on:
+      - php-app-01
+
+  php-app-01:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+      args:
+        - APP_DIR=01_app
+    image: php-app-01
+    ports:
+      - "9000:9000"

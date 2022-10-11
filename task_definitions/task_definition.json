@@ -1,0 +1,18 @@
+[
+    {
+        "name": "nginx",
+        "image": "485076298277.dkr.ecr.ap-northeast-1.amazonaws.com/fargate-${project}-nginx-app-01:latest",
+        "essential": true,
+        "portMappings": [
+            {
+                "containerPort": 80,
+                "hostPort": 80
+            }
+        ]
+    },
+    {
+        "name": "php",
+        "image": "485076298277.dkr.ecr.ap-northeast-1.amazonaws.com/fargate-${project}-php-app-01:latest",
+        "essential": true
+    }
+]

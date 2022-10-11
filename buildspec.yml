@@ -1,0 +1,21 @@
+---
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - IMAGE_URI_NGINX=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME_NGINX
+      - IMAGE_URI_PHPFPM=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME_PHPFPM
+      - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
+  build:
+    commands:
+      - docker-compose build
+      - docker tag fargate-test-nginx:$IMAGE_TAG $IMAGE_URI_NGINX
+  post_build:
+    commands:
+      - docker push $IMAGE_URI_NGINX:$IMAGE_TAG
+      - echo '[{"name":"nginx","imageUri":"__URI_NGINX__"}]' > imagedef.json
+      - sed -ie "s@__URI_NGINX__@${IMAGE_URI_NGINX}:${IMAGE_TAG}@" imagedef.json
+artifacts:
+  files:
+    - imagedef.json
